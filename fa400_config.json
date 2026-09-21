@@ -18,13 +18,13 @@
     {
       "name": "fa400_enable_glbl",
       "type": "number",
-      "description": "FA400 0 / 1 — written by modbus_plc_gateway",
+      "description": "FA400 0 / 1 — written by local (no Modbus 1 writer)",
       "default_value": "0"
     },
     {
       "name": "fa400_box_fan_cmd_glbl",
       "type": "number",
-      "description": "FA400 0 auto / 1 min / 2 max — written by modbus_plc_gateway",
+      "description": "FA400 0 auto / non-zero force MAX — written by local (no Modbus 1 writer)",
       "default_value": "0"
     },
     {
@@ -138,7 +138,7 @@
     {
       "name": "fa400_axial_state_glbl",
       "type": "number",
-      "description": "FA400 0 off / 1 min / 2 max — written by box_vent",
+      "description": "FA400 0 off / 2 max (1 reserved) — written by box_vent",
       "default_value": "0"
     },
     {
@@ -210,7 +210,7 @@
     {
       "name": "fa400_fan_status_glbl",
       "type": "number",
-      "description": "FA400 fan-control status bitmask — written by fan_control, served on Modbus input 30. b0/b1 measurement valid, b2/b3 loop active, b4/b5 saturated at maximum voltage, b6/b7 baseline-reset settling, b8/b9 severe low flow, b10/b11 overdelivery at baseline, b12/b13 LATCHED reverse-flow trip (supply/extract) - all three EC fans stopped and latched; b14/b15 reserved and zero.",
+      "description": "FA400 fan-control status bitmask — written by fan_control, served on Modbus input 30. b0/b1 measurement valid, b2/b3 loop active, b4/b5 saturated at maximum voltage, b6/b7 baseline-reset settling, b8/b9 severe low flow, b10/b11 overdelivery at baseline, b12/b13 LATCHED reverse-flow trip (supply/extract) - all three EC fans COMMANDED to stop - analogue outputs to 0 V, power-enable relay released - and the trip LATCHED; with the independent hardware 5 V fallback in the circuit a stop command is not proof of a stopped fan; b14/b15 the duct is INTENTIONALLY DISABLED in the commissioned topology of the meter (that side runs at a fixed 8.0 V, raises no fault and is not a failure).",
       "default_value": "0"
     },
     {
@@ -236,6 +236,198 @@
       "type": "number",
       "description": "Chamber target humidity (% × 10) — Modbus holding 1; single writer: modbus_plc_gateway. The ERLELO chamber program reads it through its _glbl fallback; no _ch1 variant exists, so the Main PLC is the only source.",
       "default_value": "500"
+    },
+    {
+      "name": "fa400_kamra_gen_glbl",
+      "type": "number",
+      "description": "FA400 generation counter — written by v2612_erlelo_kamra",
+      "default_value": "0"
+    },
+    {
+      "name": "fa400_kamra_health_glbl",
+      "type": "text",
+      "description": "FA400 producer state record — written by v2612_erlelo_kamra",
+      "default_value": "{}"
+    },
+    {
+      "name": "fa400_kamra_alarm_glbl",
+      "type": "text",
+      "description": "FA400 deviation-warning arming record — written by v2612_erlelo_kamra",
+      "default_value": "{}"
+    },
+    {
+      "name": "fa400_kulso_gen_glbl",
+      "type": "number",
+      "description": "FA400 generation counter — written by erlelo_kulso_v2613",
+      "default_value": "0"
+    },
+    {
+      "name": "fa400_kulso_health_glbl",
+      "type": "text",
+      "description": "FA400 producer state record — written by erlelo_kulso_v2613",
+      "default_value": "{}"
+    },
+    {
+      "name": "fa400_fan_gen_glbl",
+      "type": "number",
+      "description": "FA400 generation counter — written by fan_control",
+      "default_value": "0"
+    },
+    {
+      "name": "fa400_fan_health_glbl",
+      "type": "text",
+      "description": "FA400 producer state record — written by fan_control",
+      "default_value": "{}"
+    },
+    {
+      "name": "fa400_fan_revtrip_glbl",
+      "type": "number",
+      "description": "FA400 bitmask — written by fan_control",
+      "default_value": "0"
+    },
+    {
+      "name": "fa400_fan_revreset_cmd_glbl",
+      "type": "number",
+      "description": "FA400 counter — written by service UI / operator",
+      "default_value": "0"
+    },
+    {
+      "name": "fa400_fan_revreset_ack_glbl",
+      "type": "number",
+      "description": "FA400 counter — written by fan_control",
+      "default_value": "0"
+    },
+    {
+      "name": "fa400_frost_gen_glbl",
+      "type": "number",
+      "description": "FA400 generation counter — written by frost_protect",
+      "default_value": "0"
+    },
+    {
+      "name": "fa400_frost_health_glbl",
+      "type": "text",
+      "description": "FA400 producer state record — written by frost_protect",
+      "default_value": "{}"
+    },
+    {
+      "name": "fa400_lindr_gen_glbl",
+      "type": "number",
+      "description": "FA400 generation counter — written by lindr_vent",
+      "default_value": "0"
+    },
+    {
+      "name": "fa400_lindr_health_glbl",
+      "type": "text",
+      "description": "FA400 producer state record — written by lindr_vent",
+      "default_value": "{}"
+    },
+    {
+      "name": "fa400_box_gen_glbl",
+      "type": "number",
+      "description": "FA400 generation counter — written by box_vent",
+      "default_value": "0"
+    },
+    {
+      "name": "fa400_box_health_glbl",
+      "type": "text",
+      "description": "FA400 producer state record — written by box_vent",
+      "default_value": "{}"
+    },
+    {
+      "name": "fa400_inv_gen_glbl",
+      "type": "number",
+      "description": "FA400 generation counter — written by inverter_ctrl",
+      "default_value": "0"
+    },
+    {
+      "name": "fa400_inv_health_glbl",
+      "type": "text",
+      "description": "FA400 producer state record — written by inverter_ctrl",
+      "default_value": "{}"
+    },
+    {
+      "name": "fa400_hum_gen_glbl",
+      "type": "number",
+      "description": "FA400 generation counter — written by humidifier_level",
+      "default_value": "0"
+    },
+    {
+      "name": "fa400_hum_health_glbl",
+      "type": "text",
+      "description": "FA400 producer state record — written by humidifier_level",
+      "default_value": "{}"
+    },
+    {
+      "name": "fa400_gw_gen_glbl",
+      "type": "number",
+      "description": "FA400 generation counter — written by modbus_plc_gateway",
+      "default_value": "0"
+    },
+    {
+      "name": "fa400_gw_health_glbl",
+      "type": "text",
+      "description": "FA400 producer state record — written by modbus_plc_gateway",
+      "default_value": "{}"
+    },
+    {
+      "name": "fa400_qwd_gen_glbl",
+      "type": "number",
+      "description": "FA400 generation counter — written by modbus_watchdog",
+      "default_value": "0"
+    },
+    {
+      "name": "fa400_qwd_health_glbl",
+      "type": "text",
+      "description": "FA400 producer state record — written by modbus_watchdog",
+      "default_value": "{}"
+    },
+    {
+      "name": "fa400_wd_last_action_glbl",
+      "type": "text",
+      "description": "FA400 shared last-recovery-action record — written by whichever supervisor acted last",
+      "default_value": "{}"
+    },
+    {
+      "name": "fa400_hwd_gen_glbl",
+      "type": "number",
+      "description": "FA400 generation counter — written by health_watchdog",
+      "default_value": "0"
+    },
+    {
+      "name": "fa400_hwd_health_glbl",
+      "type": "text",
+      "description": "FA400 producer state record — written by health_watchdog",
+      "default_value": "{}"
+    },
+    {
+      "name": "fa400_hwd_image_glbl",
+      "type": "text",
+      "description": "FA400 supervision image for the gateway — written by health_watchdog",
+      "default_value": "{}"
+    },
+    {
+      "name": "fa400_hwd_budget_glbl",
+      "type": "text",
+      "description": "FA400 durable recovery-action budget — written by health_watchdog",
+      "default_value": "{}"
+    },
+    {
+      "name": "fa400_hb_gen_glbl",
+      "type": "number",
+      "description": "FA400 generation counter — written by heartbeat_ao",
+      "default_value": "0"
+    },
+    {
+      "name": "fa400_scmi_snapshot_glbl",
+      "type": "text",
+      "description": "FA400 Sinclair SCMI diagnostic snapshot — written by scmi_readonly",
+      "default_value": "{}"
+    },
+    {
+      "name": "fa400_hb_health_glbl",
+      "type": "text",
+      "description": "FA400 producer state record — written by heartbeat_ao",
+      "default_value": "{}"
     }
   ]
 }
