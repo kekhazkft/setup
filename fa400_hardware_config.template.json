@@ -22,7 +22,11 @@
       "CHK-SR-05 the real inventory of devices on the switched sensor rail",
       "CHK-SR-06 the measured device boot delay -> boot_wait_s",
       "CHK-SR-07 the physical 5 s pulse and the restoration of power",
-      "CHK-SR-08 recovery proven from data received AFTER the reset"
+      "CHK-SR-08 recovery proven from data received AFTER the reset",
+      "CHK-SR-09 the OUT7 state when the health watchdog stops immediately after an ON command, with the controller and PS-08m still powered",
+      "CHK-SR-10 whether PS-08m provides a proven native timed-pulse facility; nothing assumes it",
+      "CHK-SR-11 the Main PLC decodes input 95-99 per the integration contract, tolerates exception 2, retains the input 98 sequence, and does not stop the AHU on this block alone",
+      "CHK-SR-12 the relay's actual A1/A2 and COM/NC terminal numbers - no factory terminal data exists, so the designations in use are design designations"
     ],
     "_fixed": {
       "outdoor_slave_id": 4,
