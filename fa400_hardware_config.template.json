@@ -1,0 +1,32 @@
+{
+  "_README": "TEMPLATE for the hardware_config_fa400_glbl variable. Import it at commissioning after filling the null values in. A null here means the value is MEASURED or READ OFF the installed hardware and has no default: the software will not guess one, and it keeps the affected function disabled until the value exists.",
+  "plc": {
+    "slave_id": 15,
+    "stale_timeout_seconds": 150
+  },
+  "sensor_recovery": {
+    "_README": "R02 diagnosis and R13 recovery. Diagnostics may run while the power reset stays disabled, and that is the intended commissioning order. OUT7 ON means RESET ACTIVE: the K_MODBUS_SENSOR_RESET NC contact opens the COMMON Modbus sensor +24 V. Sensor 0 V is never switched. Fan supply, fan analogue commands, the fan 5 V fallback, the heartbeat output, the Sinum modules and the Sinclair SCMI are NOT on that rail.",
+    "diagnostics_enabled": true,
+    "modbus_component": "modbus_diag",
+    "poll_s": 30,
+    "failure_confirmations": 3,
+    "power_reset_enabled": false,
+    "reset_output_sbus_id": null,
+    "pulse_s": 5,
+    "boot_wait_s": null,
+    "_commissioning_gates_NOT_RUN": [
+      "CHK-SR-01 the relay's NC contact exists (physical inspection)",
+      "CHK-SR-02 the contact's voltage and current suit the 24 V PELV circuit",
+      "CHK-SR-03 the 230 V coil and the 24 V PELV contact are separated",
+      "CHK-SR-04 the actual PS-08m OUT7 binding and its SBus device id -> reset_output_sbus_id",
+      "CHK-SR-05 the real inventory of devices on the switched sensor rail",
+      "CHK-SR-06 the measured device boot delay -> boot_wait_s",
+      "CHK-SR-07 the physical 5 s pulse and the restoration of power",
+      "CHK-SR-08 recovery proven from data received AFTER the reset"
+    ],
+    "_fixed": {
+      "outdoor_slave_id": 4,
+      "note": "The outdoor address is a fixed owner invariant and is not configurable. Supply and chamber addresses come from hardware_config_ch1.json - modbus.supply_slave_id and modbus.chamber_slave_id - so there is no second source of truth. pulse_s is fixed at 5 for this installation and is validated: any other value leaves the reset unarmed."
+    }
+  }
+}

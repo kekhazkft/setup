@@ -228,13 +228,13 @@
     {
       "name": "kamra_cel_homerseklet_glbl",
       "type": "number",
-      "description": "Chamber target temperature (°C × 10) — Modbus holding 0; single writer: modbus_plc_gateway. The ERLELO chamber program reads it through its _glbl fallback; no _ch1 variant exists, so the Main PLC is the only source.",
+      "description": "Chamber target temperature (°C × 10) — Modbus holding 0; written by modbus_plc_gateway. The Main PLC is the single command source. The gateway writes both the _ch1 and _glbl variants when present. The chamber program prefers _ch1 and falls back to _glbl.",
       "default_value": "200"
     },
     {
       "name": "kamra_cel_para_glbl",
       "type": "number",
-      "description": "Chamber target humidity (% × 10) — Modbus holding 1; single writer: modbus_plc_gateway. The ERLELO chamber program reads it through its _glbl fallback; no _ch1 variant exists, so the Main PLC is the only source.",
+      "description": "Chamber target humidity (% × 10) — Modbus holding 1; written by modbus_plc_gateway. The Main PLC is the single command source. The gateway writes both the _ch1 and _glbl variants when present. The chamber program prefers _ch1 and falls back to _glbl.",
       "default_value": "500"
     },
     {
