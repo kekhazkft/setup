@@ -436,15 +436,15 @@
       "default_value": "{}"
     },
     {
-      "name": "ch1_kamra_temp_glbl",
+      "name": "fa400_ch1_kamra_temp_glbl",
       "type": "number",
-      "description": "Chamber TEMPERATURE measured by the Main PLC (°C × 10) — Modbus holding 6, written by modbus_plc_gateway on every new accepted sample. A measurement, never a target; control uses the timestamped record fa400_plc_chamber_meas_glbl.",
+      "description": "Chamber TEMPERATURE measured by the Main PLC (°C × 10) — Modbus holding 6, written by modbus_plc_gateway on every new accepted sample. A display copy: a measurement, never a target, with no age of its own; control uses the timestamped record fa400_plc_chamber_meas_glbl.",
       "default_value": "0"
     },
     {
-      "name": "ch1_para_temp_glbl",
+      "name": "fa400_ch1_kamra_para_glbl",
       "type": "number",
-      "description": "Chamber RELATIVE HUMIDITY measured by the Main PLC (% × 10) — Modbus holding 7, written by modbus_plc_gateway on every new accepted sample. The name ends in _temp by the owner's convention; the value is relative humidity, not a temperature. Control uses the timestamped record fa400_plc_chamber_meas_glbl.",
+      "description": "Chamber RELATIVE HUMIDITY measured by the Main PLC (%RH × 10) — Modbus holding 7, written by modbus_plc_gateway on every new accepted sample. A display copy with no age of its own; control uses the timestamped record fa400_plc_chamber_meas_glbl.",
       "default_value": "0"
     }
   ]
