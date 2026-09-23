@@ -38,8 +38,8 @@
     "plc_fresh_s": 150,
     "local_return_s": 60,
     "_notes": {
-      "plc_fresh_s": "30..600 s. How old a PLC sample may be and still be used. The PLC sends once a minute; 150 s rides out one missed transmission with margin.",
-      "local_return_s": "0..600 s. Continuous local-sensor usability required before control returns to it; immediate when the PLC sample is unusable."
+      "plc_fresh_s": "Whole seconds 30..600. How old a PLC sample may be and still be used. The PLC sends once a minute; 150 s rides out one missed transmission with margin. A fraction or an out-of-range value is not truncated: the default is used and a CONFIG_ERROR line names it.",
+      "local_return_s": "Whole seconds 0..600. Continuous local-sensor usability required before control returns to it; immediate when the PLC sample is unusable. A fraction or an out-of-range value is not truncated: the default is used and a CONFIG_ERROR line names it."
     }
   },
   "hum_fallback": {
@@ -54,12 +54,12 @@
     "supply_deadband_g_m3": 0.2,
     "chamber_deadband_g_m3": 0.3,
     "trim_max_g_m3": 2.0,
-    "_ranges": "supply_ki_per_min 0..1, chamber_ki_per_min 0..0.5, deadbands 0..2 g/m3, trim_max_g_m3 0..5 g/m3; an out-of-range entry is ignored and its default kept"
+    "_ranges": "supply_ki_per_min 0..1, chamber_ki_per_min 0..0.5, deadbands 0..2 g/m3, trim_max_g_m3 0..5 g/m3; fractions are valid; an out-of-range entry is ignored, its default kept and one HUMTP CONFIG_ERROR line names it"
   },
   "inverter_temp": {
-    "_README": "Anti-cycling of the inverter's demand-driven mode changes. Safety stops (airflow, lost chamber feedback, inactive chamber control, AHU disabled) are immediate and never wait for these. Commissioning defaults, not measured on this unit.",
+    "_README": "Anti-cycling of the inverter's demand-driven mode changes. Safety stops (airflow, lost chamber feedback, missing or invalid chamber targets, inactive chamber control, AHU disabled) are immediate and never wait for these. Commissioning defaults, not measured on this unit.",
     "min_mode_hold_s": 180,
     "reversal_off_s": 180,
-    "_ranges": "0..1800 s each; 0 turns the respective guard off"
+    "_ranges": "whole seconds 0..1800 each; 0 turns the respective guard off; a fraction or an out-of-range value is not truncated: the default is used and one INVERTER CONFIG_ERROR line names it"
   }
 }
