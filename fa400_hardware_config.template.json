@@ -1,5 +1,6 @@
 {
   "_README": "TEMPLATE for the hardware_config_fa400_glbl variable. Import it at commissioning after filling the null values in. A null here means the value is MEASURED or READ OFF the installed hardware and has no default: the software will not guess one, and it keeps the affected function disabled until the value exists.",
+  "_cycle_sleep": "Cycle-based sleep is PROHIBITED on FA400. On an installation that carries this configuration, the chamber program honours a cycle sleep request (cycle_variable_ch1.aktiv = false) only while constansok_ch1.sleep_cycle_enabled = true; keep that key false, as the chamber config installs it, or absent. A stored aktiv = false is ignored and left as it is. The master switch OFF, the startup initialization and the protective inhibits are separate and unchanged.",
   "plc": {
     "slave_id": 15,
     "stale_timeout_seconds": 150
