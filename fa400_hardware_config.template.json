@@ -32,5 +32,34 @@
       "outdoor_slave_id": 4,
       "note": "The outdoor address is a fixed owner invariant and is not configurable. Supply and chamber addresses come from hardware_config_ch1.json - modbus.supply_slave_id and modbus.chamber_slave_id - so there is no second source of truth. pulse_s is fixed at 5 for this installation and is validated: any other value leaves the reset unarmed."
     }
+  },
+  "chamber_backup": {
+    "_README": "The Main PLC chamber measurement (Modbus holding 5-10) as the chamber program's BACKUP. The chamber controls on its local chamber sensor first and takes the PLC measurement only while the local sensor is unusable. Commissioning defaults, offline-tested, not validated on the plant.",
+    "plc_fresh_s": 150,
+    "local_return_s": 60,
+    "_notes": {
+      "plc_fresh_s": "30..600 s. How old a PLC sample may be and still be used. The PLC sends once a minute; 150 s rides out one missed transmission with margin.",
+      "local_return_s": "0..600 s. Continuous local-sensor usability required before control returns to it; immediate when the PLC sample is unusable."
+    }
+  },
+  "hum_fallback": {
+    "_README": "AH-feedback fallback of the humidifier. With the outdoor AH unusable for 60 s the humidifier doses on the bounded feedback alone: the supply AH (the supply T/RH sensor sits AFTER the humidifier), else the chamber program's selected chamber AH. ON by default; enabled=false takes it away.",
+    "enabled": true,
+    "cap_permille": 500
+  },
+  "hum_feedback": {
+    "_README": "Bounded integral feedback on top of the outdoor-AH feed-forward (and the whole dose in the fallback). Commissioning defaults, offline-tested against a simple plant model, not validated on the plant.",
+    "supply_ki_per_min": 0.1,
+    "chamber_ki_per_min": 0.01,
+    "supply_deadband_g_m3": 0.2,
+    "chamber_deadband_g_m3": 0.3,
+    "trim_max_g_m3": 2.0,
+    "_ranges": "supply_ki_per_min 0..1, chamber_ki_per_min 0..0.5, deadbands 0..2 g/m3, trim_max_g_m3 0..5 g/m3; an out-of-range entry is ignored and its default kept"
+  },
+  "inverter_temp": {
+    "_README": "Anti-cycling of the inverter's demand-driven mode changes. Safety stops (airflow, lost chamber feedback, inactive chamber control, AHU disabled) are immediate and never wait for these. Commissioning defaults, not measured on this unit.",
+    "min_mode_hold_s": 180,
+    "reversal_off_s": 180,
+    "_ranges": "0..1800 s each; 0 turns the respective guard off"
   }
 }

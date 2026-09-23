@@ -12,7 +12,7 @@
     {
       "name": "fa400_hum_demand_table_glbl",
       "type": "text",
-      "description": "FA400 stepped delta-AH to duty table, permille — written by commissioning (import)",
+      "description": "Read by no program — humidifier_level doses by the mass-flow law on the measured supply airflow plus the bounded feedback, so a stored table can neither set nor block the dose. Declared only so an existing installation is not disturbed; leave unset.",
       "default_value": "{}"
     },
     {
@@ -428,6 +428,24 @@
       "type": "text",
       "description": "FA400 producer state record — written by heartbeat_ao",
       "default_value": "{}"
+    },
+    {
+      "name": "fa400_plc_chamber_meas_glbl",
+      "type": "text",
+      "description": "FA400 Main PLC chamber measurement record (JSON) — written by modbus_plc_gateway from Modbus holding 5-10; the chamber program uses it as its backup chamber measurement while its own chamber sensor is unusable. Runtime data, never saved.",
+      "default_value": "{}"
+    },
+    {
+      "name": "ch1_kamra_temp_glbl",
+      "type": "number",
+      "description": "Chamber TEMPERATURE measured by the Main PLC (°C × 10) — Modbus holding 6, written by modbus_plc_gateway on every new accepted sample. A measurement, never a target; control uses the timestamped record fa400_plc_chamber_meas_glbl.",
+      "default_value": "0"
+    },
+    {
+      "name": "ch1_para_temp_glbl",
+      "type": "number",
+      "description": "Chamber RELATIVE HUMIDITY measured by the Main PLC (% × 10) — Modbus holding 7, written by modbus_plc_gateway on every new accepted sample. The name ends in _temp by the owner's convention; the value is relative humidity, not a temperature. Control uses the timestamped record fa400_plc_chamber_meas_glbl.",
+      "default_value": "0"
     }
   ]
 }
